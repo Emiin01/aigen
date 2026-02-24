@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aigen - Autonomous Intelligence for Solana DeFi</title>
+    <meta name="description" content="The future of autonomous AI agents on Solana - blazing fast, low cost, high performance">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent: #14F195;
+            --accent-secondary: #9945FF;
+            --accent-glow: rgba(20, 241, 149, 0.3);
+            --border: #1a1a1a;
+            --success: #14F195;
+            --warning: #ffa500;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px var(--accent-glow);
+            font-weight: 500;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 30px var(--accent-glow);
+        }
+
+        .connect-wallet {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 0.6rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .connect-wallet:hover {
+            color: var(--accent);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 2rem;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: color 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent) 50%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-block;
+            box-shadow: 0 0 20px var(--accent-glow);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 40px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: rgba(20, 241, 149, 0.05);
+        }
+
+        /* Animated Grid Background */
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(20, 241, 149, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(153, 69, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Particles Effect */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-200px) translateX(-50px); }
+            75% { transform: translateY(-100px) translateX(100px); }
+        }
+
+        /* Crypto Ticker */
+        .crypto-ticker {
+            background: rgba(17, 17, 17, 0.8);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0 3rem;
+            white-space: nowrap;
+        }
+
+        .ticker-symbol {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .ticker-price {
+            color: var(--text-secondary);
+        }
+
+        .ticker-change {
+            font-size: 0.85rem;
+        }
+
+        .ticker-change.up {
+            color: var(--success);
+        }
+
+        .ticker-change.down {
+            color: #ff4444;
+        }
+
+        /* Live Stats */
+        .live-stats {
+            max-width: 1400px;
+            margin: -4rem auto 0;
+            padding: 0 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stats-container {
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .live-stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-trend {
+            color: var(--success);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Token Scanner Section - NEW! */
+        .token-scanner {
+            max-width: 1400px;
+            margin: 8rem auto;
+            padding: 0 3rem;
+        }
+
+        .scanner-container {
+            background: rgba(17, 17, 17, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+
+        .scanner-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .scanner-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .scanner-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(20, 241, 149, 0.1);
+            border: 1px solid var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .live-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .token-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .token-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .token-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .token-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .token-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .token-badge {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .token-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .token-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .token-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .token-stat-value {
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        /* Testimonials Section - NEW! */
+        .testimonials {
+            max-width: 1400px;
+            margin: 8rem auto;
+            padding: 0 3rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .testimonial-card {
+            background: rgba(17, 17, 17, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .testimonial-stars {
+            color: #FFD700;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-info {
+            flex: 1;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Roadmap Timeline - NEW! */
+        .roadmap {
+            max-width: 1000px;
+            margin: 8rem auto;
+            padding: 0 3rem;
+        }
+
+        .timeline {
+            position: relative;
+            margin-top: 4rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent), var(--accent-secondary));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(17, 17, 17, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 0 2rem;
+            transition: all 0.3s;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 4px solid var(--bg-primary);
+            z-index: 2;
+        }
+
+        .timeline-quarter {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-desc {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Partners Section - NEW! */
+        .partners {
+            max-width: 1400px;
+            margin: 8rem auto;
+            padding: 0 3rem;
+            text-align: center;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+            align-items: center;
+        }
+
+        .partner-logo {
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .partner-logo:hover {
+            opacity: 1;
+        }
+
+        /* Newsletter Popup - NEW! */
+        .newsletter-popup {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(17, 17, 17, 0.98);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 400px;
+            z-index: 998;
+            display: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .newsletter-popup.show {
+            display: block;
+            animation: slideInRight 0.5s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .newsletter-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .newsletter-close:hover {
+            color: var(--text-primary);
+        }
+
+        .newsletter-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .newsletter-text {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .newsletter-submit {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .newsletter-submit:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Rest of existing styles... (Features, Terminal, FAQ, Footer, etc.) */
+        /* I'll continue with remaining sections */
+
+        .features {
+            max-width: 1400px;
+            margin: 8rem auto;
+            padding: 0 3rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(17, 17, 17, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 3rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(20, 241, 149, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 30px var(--accent-glow);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 4rem 3rem 3rem;
+            margin-top: 8rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1.5rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: row !important;
+                padding-left: 50px;
+            }
+
+            .timeline-content {
+                margin: 0;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .newsletter-popup {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+
+            .token-grid,
+            .testimonials-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: black;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <span class="logo-pulse"></span>
+                Aigen
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#scanner">Live Scanner</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="connect-wallet" onclick="connectWallet()">Connect Phantom</button>
+                <a href="#join" class="nav-cta">Get Started</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#features" onclick="toggleMobileMenu()">Features</a>
+        <a href="#scanner" onclick="toggleMobileMenu()">Live Scanner</a>
+        <a href="#roadmap" onclick="toggleMobileMenu()">Roadmap</a>
+        <a href="#testimonials" onclick="toggleMobileMenu()">Testimonials</a>
+        <a href="#join" onclick="toggleMobileMenu()">Get Started</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="grid-bg"></div>
+        <div class="particles" id="particles"></div>
+        <div class="hero-content">
+            <h1>Autonomous Intelligence for Solana</h1>
+            <p>Deploy blazing-fast AI agents on Solana. Trade autonomously with sub-second execution and minimal fees.</p>
+            <div class="hero-buttons">
+                <a href="#join" class="btn-primary">Join Waitlist</a>
+                <a href="#scanner" class="btn-secondary">View Live Trades</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crypto Ticker -->
+    <div class="crypto-ticker">
+        <div class="ticker-content" id="ticker"></div>
+    </div>
+
+    <!-- Live Stats -->
+    <section class="live-stats">
+        <div class="stats-container">
+            <div class="live-stat">
+                <div class="stat-number" data-target="3847">0</div>
+                <div class="stat-label">Active AI Agents</div>
+                <div class="stat-trend">↗ +27% today</div>
+            </div>
+            <div class="live-stat">
+                <div class="stat-number" data-target="247839">0</div>
+                <div class="stat-label">Trades Executed</div>
+                <div class="stat-trend">↗ Live</div>
+            </div>
+            <div class="live-stat">
+                <div class="stat-number">67</div>
+                <div class="stat-label">Countries</div>
+                <div class="stat-trend">Worldwide</div>
+            </div>
+            <div class="live-stat">
+                <div class="stat-number">&lt;50ms</div>
+                <div class="stat-label">Avg Response</div>
+                <div class="stat-trend">Solana Speed</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Token Scanner NEW! -->
+    <section id="scanner" class="token-scanner">
+        <div class="scanner-container">
+            <div class="scanner-header">
+                <div class="live-badge">🔴 LIVE NOW</div>
+                <h2 class="scanner-title">AI Agents Tracking Hot Tokens</h2>
+                <p class="scanner-subtitle">Real-time opportunities detected by our autonomous agents</p>
+            </div>
+
+            <div class="token-grid" id="tokenGrid">
+                <!-- Tokens will be added by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="section-title">Built for Solana Speed</h2>
+        <p class="section-subtitle">Leverage Solana's unmatched performance with AI agents optimized for sub-second execution</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Execute trades in under 400ms on Solana. Sub-second finality ensures you never miss opportunities in volatile markets.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Minimal Fees</h3>
+                <p>Average transaction costs under $0.0001. Deploy thousands of agents without worrying about gas fees eating your profits.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Jupiter Integration</h3>
+                <p>Seamlessly integrate with Jupiter aggregator for optimal routing across all Solana DEXs including Raydium, Orca, and more.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>SPL Token Sniper</h3>
+                <p>Advanced algorithms detect and analyze new SPL token launches in real-time, identifying opportunities before the crowd.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Solana-Native Security</h3>
+                <p>Built on Anchor framework with audited smart contracts. Your wallet stays in your control with non-custodial architecture.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Real-Time Analytics</h3>
+                <p>Monitor liquidity pools, track whale movements, and analyze social sentiment across Solana ecosystem in real-time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials NEW! -->
+    <section id="testimonials" class="testimonials">
+        <h2 class="section-title">Trusted by Solana Traders</h2>
+        <p class="section-subtitle">See what early beta users are saying about Aigen</p>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "I've been trading on Solana for 2 years and Aigen is a game-changer. The AI spotted a 10x token before it hit Twitter. Insane."
+                </p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">M</div>
+                    <div class="testimonial-info">
+                        <div class="testimonial-name">Marcus Chen</div>
+                        <div class="testimonial-role">DeFi Trader</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "The speed is unreal. My agent executed 47 trades yesterday while I was sleeping. Woke up to profits. This is the future."
+                </p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">S</div>
+                    <div class="testimonial-info">
+                        <div class="testimonial-name">Sarah K.</div>
+                        <div class="testimonial-role">Crypto Investor</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">
+                    "Finally, an AI that actually works on Solana. The Jupiter integration is seamless and the fees are basically nothing."
+                </p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">D</div>
+                    <div class="testimonial-info">
+                        <div class="testimonial-name">David Park</div>
+                        <div class="testimonial-role">Solana Developer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap NEW! -->
+    <section id="roadmap" class="roadmap">
+        <h2 class="section-title">Roadmap</h2>
+        <p class="section-subtitle">Our journey to revolutionizing autonomous trading on Solana</p>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-quarter">Q1 2026 ✓</div>
+                    <h3 class="timeline-title">Foundation</h3>
+                    <p class="timeline-desc">Core AI engine development, Solana integration, and closed beta with 100 traders.</p>
+                </div>
+                <div style="flex: 1;"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div style="flex: 1;"></div>
+                <div class="timeline-content">
+                    <div class="timeline-quarter">Q2 2026 ✓</div>
+                    <h3 class="timeline-title">Jupiter & DEX Integration</h3>
+                    <p class="timeline-desc">Full Jupiter aggregator integration, Raydium/Orca support, and advanced SPL token detection.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-quarter">Q3 2026 (Current)</div>
+                    <h3 class="timeline-title">Public Beta</h3>
+                    <p class="timeline-desc">Open beta testing, community feedback integration, security audits, and performance optimization.</p>
+                </div>
+                <div style="flex: 1;"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div style="flex: 1;"></div>
+                <div class="timeline-content">
+                    <div class="timeline-quarter">Q4 2026</div>
+                    <h3 class="timeline-title">Mainnet Launch</h3>
+                    <p class="timeline-desc">Public mainnet launch, token generation event, liquidity incentives, and strategic partnerships.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-quarter">2027+</div>
+                    <h3 class="timeline-title">Ecosystem Expansion</h3>
+                    <p class="timeline-desc">Cross-chain bridges, institutional features, DAO governance, and advanced AI capabilities.</p>
+                </div>
+                <div style="flex: 1;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners NEW! -->
+    <section class="partners">
+        <h2 class="section-title">Powered by the Best</h2>
+        <p class="section-subtitle">Built on and integrated with leading Solana infrastructure</p>
+
+        <div class="partners-grid">
+            <div class="partner-logo" title="Solana">◎</div>
+            <div class="partner-logo" title="Jupiter">🪐</div>
+            <div class="partner-logo" title="Raydium">⚡</div>
+            <div class="partner-logo" title="Phantom">👻</div>
+            <div class="partner-logo" title="Orca">🐋</div>
+            <div class="partner-logo" title="Meteora">☄️</div>
+        </div>
+    </section>
+
+    <!-- Newsletter Popup NEW! -->
+    <div class="newsletter-popup" id="newsletterPopup">
+        <button class="newsletter-close" onclick="closeNewsletter()">×</button>
+        <h3 class="newsletter-title">Get Early Access</h3>
+        <p class="newsletter-text">Join 4,000+ Solana traders on the waitlist and get notified when we launch.</p>
+        <form class="newsletter-form" onsubmit="submitNewsletter(event)">
+            <input type="email" class="newsletter-input" placeholder="your@email.com" required>
+            <button type="submit" class="newsletter-submit">Join</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Aigen</h4>
+                <p style="color: var(--text-secondary); line-height: 1.7;">
+                    Building the future of autonomous intelligence on Solana.
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#scanner">Live Scanner</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                    <li><a href="#">Documentation</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://twitter.com/aigen_official" target="_blank">Twitter</a></li>
+                    <li><a href="#" target="_blank">Discord</a></li>
+                    <li><a href="#" target="_blank">Telegram</a></li>
+                    <li><a href="#" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Ecosystem</h4>
+                <ul>
+                    <li><a href="https://solana.com" target="_blank">Solana</a></li>
+                    <li><a href="https://jup.ag" target="_blank">Jupiter</a></li>
+                    <li><a href="https://raydium.io" target="_blank">Raydium</a></li>
+                    <li><a href="https://phantom.app" target="_blank">Phantom</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div>© 2026 Aigen. Built on Solana.</div>
+            <div class="social-links">
+                <a href="https://twitter.com/aigen_official" target="_blank">Twitter</a>
+                <a href="#" target="_blank">Discord</a>
+                <a href="#" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        ↑
+    </div>
+
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+
+            // Show newsletter after 10 seconds
+            setTimeout(() => {
+                document.getElementById('newsletterPopup').classList.add('show');
+            }, 10000);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const scrollTop = document.getElementById('scrollTop');
+            
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                scrollTop.classList.add('visible');
+            } else {
+                navbar.classList.remove('scrolled');
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Create crypto ticker - Solana focused
+        function createTicker() {
+            const ticker = document.getElementById('ticker');
+            const cryptos = [
+                { symbol: 'SOL', price: '$142.47', change: '+4.2%', up: true },
+                { symbol: 'JUP', price: '$1.24', change: '+8.7%', up: true },
+                { symbol: 'BONK', price: '$0.000028', change: '+12.3%', up: true },
+                { symbol: 'JTO', price: '$3.87', change: '+2.1%', up: true },
+                { symbol: 'PYTH', price: '$0.52', change: '-1.2%', up: false },
+                { symbol: 'WEN', price: '$0.00012', change: '+15.4%', up: true },
+                { symbol: 'RAY', price: '$2.14', change: '+3.8%', up: true },
+                { symbol: 'ORCA', price: '$4.23', change: '+1.9%', up: true }
+            ];
+
+            const allCryptos = [...cryptos, ...cryptos];
+            
+            allCryptos.forEach(crypto => {
+                const item = document.createElement('div');
+                item.className = 'ticker-item';
+                item.innerHTML = `
+                    <span class="ticker-symbol">${crypto.symbol}</span>
+                    <span class="ticker-price">${crypto.price}</span>
+                    <span class="ticker-change ${crypto.up ? 'up' : 'down'}">${crypto.change}</span>
+                `;
+                ticker.appendChild(item);
+            });
+        }
+
+        // Create hot tokens - NEW!
+        function createTokenCards() {
+            const container = document.getElementById('tokenGrid');
+            const tokens = [
+                { name: '$BONK', badge: 'HOT 🔥', volume: '+847%', liquidity: '$2.4M', holders: '12.4K', txns: '847' },
+                { name: '$WIF', badge: 'NEW', volume: '+234%', liquidity: '$1.8M', holders: '8.2K', txns: '523' },
+                { name: '$MYRO', badge: 'TRENDING', volume: '+127%', liquidity: '$890K', holders: '4.7K', txns: '312' },
+                { name: '$SAMO', badge: 'HOT 🔥', volume: '+456%', liquidity: '$3.1M', holders: '15.8K', txns: '1.2K' }
+            ];
+
+            tokens.forEach(token => {
+                const card = document.createElement('div');
+                card.className = 'token-card';
+                card.innerHTML = `
+                    <div class="token-header">
+                        <div class="token-name">${token.name}</div>
+                        <div class="token-badge">${token.badge}</div>
+                    </div>
+                    <div class="token-stats">
+                        <div class="token-stat">
+                            <div class="token-stat-label">Volume 24h</div>
+                            <div class="token-stat-value">${token.volume}</div>
+                        </div>
+                        <div class="token-stat">
+                            <div class="token-stat-label">Liquidity</div>
+                            <div class="token-stat-value">${token.liquidity}</div>
+                        </div>
+                        <div class="token-stat">
+                            <div class="token-stat-label">Holders</div>
+                            <div class="token-stat-value">${token.holders}</div>
+                        </div>
+                        <div class="token-stat">
+                            <div class="token-stat-label">Txns/min</div>
+                            <div class="token-stat-value">${token.txns}</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Animate counter numbers
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number[data-target]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current).toLocaleString();
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target.toLocaleString();
+                    }
+                };
+
+                updateCounter();
+            });
+        }
+
+        // Newsletter functions
+        function closeNewsletter() {
+            document.getElementById('newsletterPopup').classList.remove('show');
+        }
+
+        function submitNewsletter(event) {
+            event.preventDefault();
+            alert('✅ Success! Check your email for confirmation.');
+            closeNewsletter();
+        }
+
+        // Connect wallet - Solana specific
+        function connectWallet() {
+            alert('🔗 Phantom Wallet connection coming soon!\n\nSupported wallets:\n• Phantom\n• Solflare\n• Backpack\n• Glow');
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .testimonial-card, .token-card, .timeline-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            createParticles();
+            createTicker();
+            createTokenCards();
+            
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const statsSection = document.querySelector('.live-stats');
+            if (statsSection) {
+                statsObserver.observe(statsSection);
+            }
+        });
+    </script>
+</body>
+</html>
