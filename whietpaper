@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aigen AI - Whitepaper (Print Version)</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 25mm;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background: white;
+            color: #000;
+            line-height: 1.8;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            font-style: italic;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        .meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 14px;
+            max-width: 500px;
+            margin: 20px auto 0;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+        }
+        
+        .meta-item {
+            text-align: left;
+        }
+        
+        .meta-label {
+            font-weight: 700;
+        }
+        
+        .meta-value {
+            color: #555;
+        }
+        
+        .abstract {
+            background: #f5f5f5;
+            border-left: 4px solid #000;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .abstract h2 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        .abstract p {
+            text-align: justify;
+            hyphens: auto;
+            font-size: 13px;
+        }
+        
+        .toc {
+            background: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+        }
+        
+        .toc h2 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .toc ol {
+            list-style: decimal;
+            padding-left: 20px;
+        }
+        
+        .toc li {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            counter-increment: section;
+        }
+        
+        h1::before {
+            content: counter(section) ". ";
+        }
+        
+        h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+        
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+            hyphens: auto;
+            font-size: 13px;
+        }
+        
+        ul, ol {
+            margin-bottom: 15px;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        strong {
+            font-weight: 700;
+        }
+        
+        .note {
+            background: #fffbea;
+            border-left: 4px solid #ffa500;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+        
+        .note strong {
+            color: #cc8400;
+        }
+        
+        .disclaimer {
+            background: #fff0f0;
+            border-left: 4px solid #d32f2f;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+        
+        .disclaimer h3 {
+            color: #b71c1c;
+            margin-top: 0;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #000;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        body {
+            counter-reset: section;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title" style="counter-increment: none;">Aigen AI: Rational Trading Through Artificial Intelligence</h1>
+        <p class="subtitle">A Statistical Analysis Framework for Cryptocurrency Markets</p>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <span class="meta-label">Author:</span>
+                <span class="meta-value">Emin Turus</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Contact:</span>
+                <span class="meta-value">et@aigen.com</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Version:</span>
+                <span class="meta-value">1.0</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Date:</span>
+                <span class="meta-value">February 2026</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="abstract">
+        <h2>Abstract</h2>
+        <p>
+            Aigen AI is an advanced artificial intelligence platform designed to assist cryptocurrency traders in making rational, data-driven decisions by analyzing micro and macro market conditions. Unlike signal-providing services or automated trading bots, Aigen AI serves as an analytical companion that processes vast amounts of market data, statistical patterns, and sentiment indicators to provide traders with objective insights. The platform leverages machine learning algorithms, real-time blockchain analytics, and multi-timeframe statistical models to identify market conditions, risk factors, and probabilistic outcomes. By removing emotional bias and providing clear, data-backed analysis, Aigen AI enables traders to approach markets with rationality and discipline. The platform specializes in Solana ecosystem analysis, capitalizing on the blockchain's sub-second finality and transparent on-chain data. Aigen AI does not guarantee profits or provide financial advice; rather, it equips traders with the analytical tools necessary to form their own informed strategies based on quantifiable market dynamics.
+        </p>
+    </div>
+
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li>Introduction</li>
+            <li>The Problem: Emotional Trading</li>
+            <li>The Solution: Rational Analysis Through AI</li>
+            <li>Technical Architecture</li>
+            <li>Core Features & Functionality</li>
+            <li>AI & Machine Learning Models</li>
+            <li>Micro Analysis Framework</li>
+            <li>Macro Analysis Framework</li>
+            <li>Risk Assessment & Management</li>
+            <li>Business Model & Pricing</li>
+            <li>Roadmap & Development Timeline</li>
+            <li>Team & Vision</li>
+            <li>Legal Disclaimers & Risk Factors</li>
+            <li>Conclusion</li>
+        </ol>
+    </div>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>Introduction</h1>
+        
+        <h2>1.1 The Cryptocurrency Trading Landscape</h2>
+        <p>
+            The cryptocurrency market has evolved into a $2+ trillion ecosystem characterized by extreme volatility, 24/7 trading cycles, and unprecedented information flow. Traders face an overwhelming amount of data: price action across hundreds of exchanges, on-chain metrics, social media sentiment, macroeconomic indicators, and technical signals. This information overload, combined with the psychological pressures of high-volatility markets, often leads to emotional decision-making that undermines trading performance.
+        </p>
+
+        <h2>1.2 The Emotional Trading Problem</h2>
+        <p>
+            Research consistently shows that emotional trading—driven by fear, greed, or FOMO (fear of missing out)—is one of the primary causes of retail trader losses. Humans are neurologically wired to make irrational decisions under uncertainty, particularly when financial stakes are high. Common emotional trading patterns include:
+        </p>
+        <ul>
+            <li><strong>Panic selling</strong> during market corrections</li>
+            <li><strong>FOMO buying</strong> at local tops</li>
+            <li><strong>Confirmation bias</strong> leading to selective information processing</li>
+            <li><strong>Loss aversion</strong> causing premature profit-taking or holding losers too long</li>
+            <li><strong>Recency bias</strong> overweighting recent events in decision-making</li>
+        </ul>
+
+        <h2>1.3 Aigen AI's Approach</h2>
+        <p>
+            Aigen AI addresses this fundamental challenge by providing rational, data-driven analysis that removes emotional bias from the trading equation. Rather than making trading decisions for users or providing guaranteed signals, Aigen AI serves as an analytical framework that helps traders think clearly, assess risk objectively, and make informed decisions based on statistical probability rather than emotional reaction.
+        </p>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>The Problem: Emotional Trading</h1>
+
+        <h2>2.1 Cognitive Biases in Trading</h2>
+        <p>
+            Behavioral finance research has identified numerous cognitive biases that affect trading performance:
+        </p>
+
+        <h3>Availability Heuristic</h3>
+        <p>
+            Traders overweight recent or memorable events when assessing probabilities. For example, after witnessing a sharp crash, traders may overestimate the likelihood of further declines, even when statistical data suggests otherwise.
+        </p>
+
+        <h3>Anchoring Bias</h3>
+        <p>
+            Initial reference points (such as purchase price) disproportionately influence subsequent decisions. Traders often hold losing positions simply because selling would "realize" a loss relative to their anchored entry price.
+        </p>
+
+        <h3>Herd Behavior</h3>
+        <p>
+            Social proof and FOMO drive traders to follow crowd sentiment rather than conducting independent analysis. This leads to buying tops and selling bottoms in cyclical fashion.
+        </p>
+
+        <h2>2.2 Information Overload</h2>
+        <p>
+            Modern traders have access to more data than ever before, but this abundance creates paralysis and confusion. Key challenges include:
+        </p>
+        <ul>
+            <li>Conflicting signals across different timeframes and indicators</li>
+            <li>Noise vs. signal differentiation in social media and news</li>
+            <li>Inability to process on-chain data effectively without technical expertise</li>
+            <li>Difficulty integrating micro (short-term) and macro (long-term) perspectives</li>
+        </ul>
+
+        <h2>2.3 The Need for Rational Analysis Tools</h2>
+        <p>
+            What traders need is not more information, but better synthesis and interpretation of existing data. This is where artificial intelligence excels: processing vast datasets, identifying statistical patterns, and presenting actionable insights free from emotional contamination.
+        </p>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>The Solution: Rational Analysis Through AI</h1>
+
+        <h2>3.1 Core Philosophy</h2>
+        <p>
+            Aigen AI is built on three foundational principles:
+        </p>
+        <ol>
+            <li><strong>No Guarantees</strong>: We do not promise profits or predict the future. Markets are probabilistic, not deterministic.</li>
+            <li><strong>Rational Framework</strong>: We provide objective analysis to help traders make informed decisions based on data, not emotions.</li>
+            <li><strong>User Autonomy</strong>: Traders retain full control over their decisions. Aigen AI is a tool for clarity, not an automated trading system.</li>
+        </ol>
+
+        <h2>3.2 What Aigen AI Does</h2>
+        <p>
+            Aigen AI processes multiple data streams and presents traders with:
+        </p>
+        <ul>
+            <li><strong>Micro Analysis</strong>: Short-term price action, volume patterns, and immediate market conditions</li>
+            <li><strong>Macro Analysis</strong>: Long-term trends, market regimes, and structural context</li>
+            <li><strong>Risk Assessment</strong>: Quantified risk metrics, volatility measures, and probability-weighted outcomes</li>
+            <li><strong>Sentiment Analysis</strong>: Social media, news, and on-chain sentiment indicators</li>
+            <li><strong>On-Chain Intelligence</strong>: Blockchain data analysis for Solana ecosystem</li>
+        </ul>
+
+        <h2>3.3 What Aigen AI Does NOT Do</h2>
+        <p>
+            To set proper expectations, Aigen AI explicitly does <strong>not</strong>:
+        </p>
+        <ul>
+            <li>Provide guaranteed trading signals or "calls"</li>
+            <li>Execute trades automatically on users' behalf</li>
+            <li>Promise specific returns or profitability</li>
+            <li>Replace the need for users to think critically about their trades</li>
+            <li>Offer financial advice or personalized investment recommendations</li>
+        </ul>
+
+        <div class="note">
+            <strong>Note:</strong> Aigen AI is a decision-support tool, not a decision-making system. The ultimate responsibility for trading decisions remains with the user.
+        </div>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>Technical Architecture</h1>
+
+        <h2>4.1 System Overview</h2>
+        <p>
+            Aigen AI is built on a modern, scalable architecture comprising:
+        </p>
+        <ul>
+            <li><strong>Data Aggregation Layer</strong>: Real-time ingestion from exchanges, blockchain nodes, social media APIs, and news sources</li>
+            <li><strong>Processing Engine</strong>: Distributed computing infrastructure for parallel data processing</li>
+            <li><strong>ML/AI Layer</strong>: Machine learning models for pattern recognition, sentiment analysis, and probability estimation</li>
+            <li><strong>API Gateway</strong>: RESTful and WebSocket APIs for frontend applications</li>
+            <li><strong>Frontend Applications</strong>: Web and mobile interfaces for user interaction</li>
+        </ul>
+
+        <h2>4.2 Data Sources</h2>
+        <p>
+            Aigen AI integrates data from multiple authoritative sources:
+        </p>
+
+        <h3>Price & Trading Data</h3>
+        <ul>
+            <li>Jupiter Aggregator (Solana DEX data)</li>
+            <li>Raydium, Orca, Meteora liquidity pools</li>
+            <li>Centralized exchange APIs (Binance, Coinbase, Kraken)</li>
+            <li>Historical OHLCV data across multiple timeframes</li>
+        </ul>
+
+        <h3>On-Chain Data</h3>
+        <ul>
+            <li>Solana RPC nodes for transaction monitoring</li>
+            <li>Wallet activity and large holder movements</li>
+            <li>Token supply dynamics and lock/unlock schedules</li>
+            <li>DeFi protocol TVL (Total Value Locked) metrics</li>
+        </ul>
+
+        <h3>Sentiment & Social Data</h3>
+        <ul>
+            <li>X (Twitter) API for crypto-related discussions</li>
+            <li>Reddit, Discord, Telegram sentiment scraping</li>
+            <li>News aggregation from crypto-focused publications</li>
+            <li>Influencer and whale social activity tracking</li>
+        </ul>
+
+        <h2>4.3 Infrastructure</h2>
+        <p>
+            The platform leverages cloud-native architecture:
+        </p>
+        <ul>
+            <li><strong>Compute</strong>: AWS EC2 / Google Cloud Platform for scalable processing</li>
+            <li><strong>Database</strong>: PostgreSQL for relational data, TimescaleDB for time-series, Redis for caching</li>
+            <li><strong>Message Queue</strong>: Apache Kafka for real-time data streaming</li>
+            <li><strong>ML Infrastructure</strong>: TensorFlow / PyTorch for model training and inference</li>
+            <li><strong>CDN</strong>: CloudFlare for low-latency global delivery</li>
+        </ul>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>Core Features & Functionality</h1>
+
+        <h2>5.1 Real-Time Market Dashboard</h2>
+        <p>
+            Users access a comprehensive dashboard displaying:
+        </p>
+        <ul>
+            <li>Live price charts with technical indicators</li>
+            <li>Micro and macro trend assessments</li>
+            <li>Risk level indicators (Low / Medium / High)</li>
+            <li>Sentiment scores (0-100 scale)</li>
+            <li>Probability-weighted outcome scenarios</li>
+        </ul>
+
+        <h2>5.2 Multi-Timeframe Analysis</h2>
+        <p>
+            Aigen AI synthesizes data across multiple timeframes to provide context:
+        </p>
+        <ul>
+            <li><strong>1-minute to 15-minute</strong>: Scalping and intraday micro trends</li>
+            <li><strong>1-hour to 4-hour</strong>: Swing trading and short-term positioning</li>
+            <li><strong>Daily to Weekly</strong>: Position trading and macro trend confirmation</li>
+            <li><strong>Monthly</strong>: Long-term investment context</li>
+        </ul>
+
+        <h2>5.3 Customizable Alerts</h2>
+        <p>
+            Users can configure alerts for:
+        </p>
+        <ul>
+            <li>Significant price movements or breakouts</li>
+            <li>Changes in sentiment score thresholds</li>
+            <li>Large on-chain transactions (whale alerts)</li>
+            <li>Volatility spikes or regime shifts</li>
+            <li>Risk level changes for monitored assets</li>
+        </ul>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>AI & Machine Learning Models</h1>
+
+        <h2>6.1 Machine Learning Stack</h2>
+        <p>
+            Aigen AI employs a diverse set of ML techniques optimized for different aspects of market analysis:
+        </p>
+
+        <h3>Supervised Learning Models</h3>
+        <ul>
+            <li><strong>Random Forests</strong>: Pattern recognition in historical price data</li>
+            <li><strong>Gradient Boosting (XGBoost)</strong>: Feature importance ranking for predictive indicators</li>
+            <li><strong>Neural Networks (LSTMs)</strong>: Sequential pattern detection in time-series data</li>
+        </ul>
+
+        <h3>Unsupervised Learning</h3>
+        <ul>
+            <li><strong>K-Means Clustering</strong>: Market regime identification (bull, bear, range-bound)</li>
+            <li><strong>Principal Component Analysis (PCA)</strong>: Dimensionality reduction for multi-asset analysis</li>
+        </ul>
+
+        <h3>Natural Language Processing (NLP)</h3>
+        <ul>
+            <li><strong>Sentiment Analysis</strong>: Transformer models (BERT-based) for social media and news</li>
+            <li><strong>Topic Modeling</strong>: LDA (Latent Dirichlet Allocation) for narrative tracking</li>
+            <li><strong>Named Entity Recognition</strong>: Identifying mentions of specific tokens and projects</li>
+        </ul>
+
+        <h2>6.2 Statistical Models</h2>
+        <p>
+            In addition to ML, traditional statistical methods provide robust baselines:
+        </p>
+        <ul>
+            <li><strong>GARCH Models</strong>: Volatility forecasting</li>
+            <li><strong>ARIMA/SARIMA</strong>: Time-series trend analysis</li>
+            <li><strong>Monte Carlo Simulation</strong>: Probability distribution modeling</li>
+            <li><strong>Correlation Analysis</strong>: Cross-asset relationship quantification</li>
+        </ul>
+
+        <div class="note">
+            <strong>Important:</strong> Model outputs are probabilistic, not deterministic. Aigen AI presents confidence intervals and probability distributions rather than single-point predictions.
+        </div>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>Micro Analysis Framework</h1>
+
+        <h2>7.1 Definition</h2>
+        <p>
+            <strong>Micro analysis</strong> focuses on short-term market dynamics, typically spanning minutes to days. This includes:
+        </p>
+        <ul>
+            <li>Intraday price action and volume patterns</li>
+            <li>Order book analysis (bid-ask spread, depth)</li>
+            <li>Short-term momentum and oscillators</li>
+            <li>Immediate market sentiment shifts</li>
+        </ul>
+
+        <h2>7.2 Key Metrics</h2>
+
+        <h3>Volume Profile Analysis</h3>
+        <p>
+            Identifies areas of high trading activity to determine support/resistance zones and fair value areas.
+        </p>
+
+        <h3>Relative Strength Index (RSI)</h3>
+        <p>
+            Measures overbought/oversold conditions on multiple timeframes. Divergences between price and RSI signal potential reversals.
+        </p>
+
+        <h3>Bollinger Bands & Volatility</h3>
+        <p>
+            Quantifies current volatility relative to historical norms. Band contractions often precede significant moves.
+        </p>
+
+        <h2>7.3 Use Cases</h2>
+        <p>
+            Micro analysis is particularly valuable for:
+        </p>
+        <ul>
+            <li><strong>Day traders</strong> seeking optimal entry/exit points</li>
+            <li><strong>Scalpers</strong> capitalizing on short-term inefficiencies</li>
+            <li><strong>Swing traders</strong> timing position entries within broader macro trends</li>
+        </ul>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>Macro Analysis Framework</h1>
+
+        <h2>8.1 Definition</h2>
+        <p>
+            <strong>Macro analysis</strong> examines long-term market structure and context, typically spanning weeks to months. This provides the "big picture" necessary for strategic positioning.
+        </p>
+
+        <h2>8.2 Market Regime Detection</h2>
+        <p>
+            Using clustering algorithms and statistical tests, Aigen AI classifies the current market environment:
+        </p>
+        <ul>
+            <li><strong>Bull Market</strong>: Sustained uptrend with higher highs and higher lows</li>
+            <li><strong>Bear Market</strong>: Sustained downtrend with lower highs and lower lows</li>
+            <li><strong>Range-Bound</strong>: Sideways consolidation within defined support/resistance</li>
+            <li><strong>High Volatility</strong>: Large swings without clear directional bias</li>
+        </ul>
+
+        <h2>8.3 Cross-Asset Correlation</h2>
+        <p>
+            Understanding how crypto correlates with traditional markets provides crucial context:
+        </p>
+        <ul>
+            <li><strong>Crypto vs. Equities</strong>: Correlation with S&P 500, NASDAQ</li>
+            <li><strong>Crypto vs. Commodities</strong>: Gold, oil, and their macroeconomic drivers</li>
+            <li><strong>DXY (US Dollar Index)</strong>: Inverse correlation analysis</li>
+            <li><strong>Interest Rates</strong>: Fed policy and risk-on/risk-off dynamics</li>
+        </ul>
+
+        <h2>8.4 Integration with Micro</h2>
+        <p>
+            The power of Aigen AI lies in synthesizing micro and macro perspectives:
+        </p>
+        <ul>
+            <li><strong>Alignment</strong>: High-conviction setups when micro and macro agree</li>
+            <li><strong>Divergence</strong>: Caution when short-term signals contradict long-term structure</li>
+            <li><strong>Context</strong>: Micro opportunities are framed within macro regime</li>
+        </ul>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>Risk Assessment & Management</h1>
+
+        <h2>9.1 Risk Quantification</h2>
+        <p>
+            Aigen AI provides objective risk metrics to help traders size positions appropriately:
+        </p>
+
+        <h3>Volatility Measures</h3>
+        <p>
+            Historical volatility, implied volatility (where available), and volatility percentiles help traders understand current market conditions relative to historical norms.
+        </p>
+
+        <h3>Drawdown Analysis</h3>
+        <p>
+            Maximum historical drawdowns and current drawdown from peak provide context for risk tolerance and position sizing.
+        </p>
+
+        <h2>9.2 Position Sizing Recommendations</h2>
+        <p>
+            Based on user-defined risk tolerance and account size, the platform suggests appropriate position sizes using frameworks like:
+        </p>
+        <ul>
+            <li><strong>Fixed Fractional</strong>: Risk a fixed percentage of capital per trade</li>
+            <li><strong>Kelly Criterion</strong>: Optimize position size based on edge and odds</li>
+            <li><strong>Volatility-Adjusted</strong>: Scale position size inversely with volatility</li>
+        </ul>
+    </section>
+
+    <div class="page-break"></div>
+
+    <section>
+        <h1>Business Model & Pricing</h1>
+
+        <h2>10.1 Freemium Model</h2>
+        <p>
+            Aigen AI operates on a freemium business model:
+        </p>
+
+        <h3>Free Tier</h3>
+        <ul>
+            <li>Access to basic micro and macro analysis</li>
+            <li>Limited to 3 assets for tracking</li>
+            <li>Daily analysis updates (not real-time)</li>
+            <li>Community support</li>
+        </ul>
+
+        <h3>Pro Tier ($29/month)</h3>
+        <ul>
+            <li>Real-time analysis and alerts</li>
+            <li>Unlimited asset tracking</li>
+            <li>Advanced risk metrics and scenario modeling</li>
+            <li>Portfolio analysis tools</li>
+            <li>Priority support</li>
+            <li>API access for integration</li>
+        </ul>
+
+        <h3>Enterprise Tier (Custom Pricing)</h3>
+        <ul>
+            <li>White-label solutions</li>
+            <li>Custom model training</li>
+            <li>Dedicated infrastructure</li>
+            <li>SLA guarantees</li>
+            <li>Accou
